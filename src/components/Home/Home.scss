@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .home {
   margin: 0;
   padding: 0;
@@ -5,20 +7,30 @@
 
   .heading {
   color: #ffffffde;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  // font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 1000;
   font-size: 50px;
+    font-family: "Bruno Ace SC", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 
   position: absolute;
-  top: 30%;
+  top: 60%;
   left: 30%;
   transform: translateX(10%), translateY(20%);
   }
 
   .home_img-container {
+    top: -100px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+
     .home_img { 
-      width: 920px;
-      height: 520px;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 
