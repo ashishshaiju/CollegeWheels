@@ -43,6 +43,7 @@ const RegisterPage = () => {
 			alert("Somethings Wrong, Try again");
 		}
 	};
+	
 	// Formik stuffs: Form validation
 	const initialValues = {
 		name: "",

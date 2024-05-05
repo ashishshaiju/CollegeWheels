@@ -14,6 +14,14 @@ export async function navigateLogin() {
   redirect(`/login`);
 }
 
-export async function navigateStart() {
-  redirect(`/start`);
+export async function navigateLoginDriver() {
+  redirect(`/driver/login`);
+}
+
+export async function navigateStartKuttikkanam() {
+  redirect(`/start/kuttikkanam`);
+}
+
+export async function navigateStartPallikunnu() {
+  redirect(`/start/pallikunnu`);
 }

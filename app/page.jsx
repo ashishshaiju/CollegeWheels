@@ -6,7 +6,7 @@ import auto from "../assets/auto.png";
 import "./globals.scss";
 import Image from "next/image";
 import PocketBase from "pocketbase";
-import { navigateLogin, navigateStart } from "./actions";
+import { navigateLogin, navigateStartPallikunnu, navigateStartKuttikkanam } from "./actions";
 
 export default function Home() {
 	const pb = new PocketBase("http://127.0.0.1:8090");
@@ -37,8 +37,12 @@ export default function Home() {
 	};
 	checkUserValid();
 
-	const goToStart = () => {
-		navigateStart();
+	const goToPallikunnu = () => {
+		navigateStartPallikunnu();
+	};
+
+	const goToKuttikkanam = () => {
+		navigateStartKuttikkanam();
 	};
 
 	return (
@@ -63,13 +67,13 @@ export default function Home() {
 				<ActionButtons>
 					<InputButton>Where To?</InputButton>
 					<RideButtons>
-						<RideButton onClick={goToStart}>
+						<RideButton onClick={goToKuttikkanam}>
 							<AutoImg>
 								<Image src={auto} />
 							</AutoImg>
 							<RideText>Kuttikkanam</RideText>
 						</RideButton>
-						<RideButton onClick={goToStart}>
+						<RideButton onClick={goToPallikunnu}>
 							<AutoImg>
 								<Image src={auto} />
 							</AutoImg>

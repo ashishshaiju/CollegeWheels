@@ -1,11 +1,27 @@
-'use client'
+"use client";
 
 import React from "react";
 import tw from "tailwind-styled-components";
 import "../globals.scss";
 import { useState } from "react";
-import { navigateLogin, navigateStart } from "@/app/actions";
+import { navigateLoginDriver } from "@/app/actions";
 import PocketBase from "pocketbase";
+
+import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
+	InputOTP,
+	InputOTPGroup,
+	InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 export default function Driver() {
 	const pb = new PocketBase("http://127.0.0.1:8090");
@@ -17,8 +33,7 @@ export default function Driver() {
 			const userN = await pb.authStore.model.name;
 			setUserName(userN);
 			setUserValid(true);
-			}
-			catch (error) {
+		} catch (error) {
 			console.error("Error checking user validity:", error);
 			navigateLogin();
 		}
@@ -30,23 +45,32 @@ export default function Driver() {
 	const logout = () => {
 		try {
 			pb.authStore.clear();
-			navigateLogin();
+			navigateLoginDriver();
 		} catch (error) {
 			console.error("Error logging out:", error);
 		}
 	};
 
+	const [value, setValue] = useState('')
+
 	checkUserValid();
 
 	return (
 		<Main>
-		<Map><iframe src="https://embed.waze.com/iframe?zoom=16&lat=9.582618&lon=76.971127&ct=livemap" width="600" height="450" allowfullscreen></iframe></Map>
+			<Map>
+				<iframe
+					src="https://embed.waze.com/iframe?zoom=16&lat=9.582618&lon=76.971127&ct=livemap"
+					width="600"
+					height="450"
+					allowfullscreen
+				></iframe>
+			</Map>
 
 			<ActionItems>
 				<Header>
 					<LogoContainer>College Wheels</LogoContainer>
 					<Profile onClick={logout}>
-					<UserImage src="https://t3.ftcdn.net/jpg/06/33/54/78/360_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg" />
+						<UserImage src="https://t3.ftcdn.net/jpg/06/33/54/78/360_F_633547842_AugYzexTpMJ9z1YcpTKUBoqBF0CUCk10.jpg" />
 						<UserName>{userName}</UserName>
 					</Profile>
 				</Header>
@@ -54,14 +78,48 @@ export default function Driver() {
 				<ActionButtons>
 					<InputButton>New Requests</InputButton>
 					<RideButtons>
-          <RideButton>
-							<RideText>Neha</RideText>
-						</RideButton>
-            <RideButton>
-							<RideText>Sharon</RideText>
-						</RideButton>
-            <RideButton>
-							<RideText>Harsha</RideText>
+						<RideButton>
+							<Dialog>
+								<RideText>Neha</RideText>
+								<DialogTrigger>
+									<Button className="w-32">Accept</Button>
+								</DialogTrigger>
+								<DialogContent className="flex flex-col items-start">
+									<DialogHeader>
+										<DialogTitle>Verify Code from User</DialogTitle>
+										<DialogDescription>
+											The code will be displayed in the user's phone. <br />
+											Start the ride only after entering the correct code.
+										</DialogDescription>
+									</DialogHeader>
+									<div className="space-y-2">
+										<InputOTP
+											maxLength={6}
+											value={value}
+											onChange={() => setValue(value)}
+										>
+											<InputOTPGroup>
+												<InputOTPSlot index={0} />
+												<InputOTPSlot index={1} />
+												<InputOTPSlot index={2} />
+												<InputOTPSlot index={3} />
+												<InputOTPSlot index={4} />
+												<InputOTPSlot index={5} />
+											</InputOTPGroup>
+										</InputOTP>
+										<div className="text-center text-sm">
+											{value === "" ? (
+												<>Enter your one-time password.</>
+											) : (
+												<>You entered: {value}</>
+											)}
+										</div>
+									</div>
+									<Button type="submit">
+                    Submit
+                  </Button>
+								</DialogContent>
+							</Dialog>
 						</RideButton>
 					</RideButtons>
 				</ActionButtons>
@@ -116,8 +174,8 @@ gap-5 flex-col
 const RideButton = tw.div`
 rideButton h-40 bg-gray-200 text-2xl p-4 px-6 
 rounded-xl items-center w-auto text-center
-flex justify-center flex-col hover:scale-102
-transition flex-1 
+flex justify-around hover:scale-102
+transition flex-1
 `;
 
 const AutoImg = tw.div`
@@ -125,6 +183,5 @@ autoImg h-24 w-28
 `;
 
 const RideText = tw.p`
-text-xl 
+text-xl w-auto
 `;
-

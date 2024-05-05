@@ -107,7 +107,7 @@ const LoginPage = () => {
 					/>
 					<label htmlFor="password">Password: </label>
 				</div>
-				<button type="submit">Log in</button>
+				<button className="SubmitBtn" type="submit">Log in</button>
 			</form>
 		</div>
 	);

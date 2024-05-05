@@ -17,7 +17,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #f0e0f0;
+	background: url(../../assets/sss.jpg);
+	background-size: contain;
 }
 h4 {
 	font-size: 24px;
@@ -50,7 +51,8 @@ form {
 			font-size: 20px;
 		}
 	}
-	p, .welcome-text {
+	p,
+	.welcome-text {
 		line-height: 155%;
 		font-size: 14px;
 		color: #000;
@@ -62,7 +64,6 @@ form {
 
 	.welcome-text {
 		margin-bottom: 20px;
-
 	}
 }
 a.discrete {
@@ -86,8 +87,10 @@ button {
 	text-align: center;
 	padding: 15px 40px;
 	margin-top: 10px;
-	background-color: saturate($primary, 30%);
-	color: #fff;
+	background-color: #fed700;
+
+	// background-color: saturate($primary, 30%);
+	color: #000;
 	font-size: 14px;
 	// margin-left: auto;
 	font-weight: 500;
@@ -209,12 +212,12 @@ $displacement: 3px;
 	box-shadow: 0px 2px 6px -1px rgba(0, 0, 0, 0.12);
 }
 .left {
-  flex: 1;
+	flex: 1;
 	min-width: 220px;
 	height: auto;
 	min-height: 100%;
 	position: relative;
-	background-image: url("https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+	background-image: url("../../assets/rcr.jpg");
 	background-size: cover;
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
@@ -225,13 +228,15 @@ $displacement: 3px;
 	// }
 }
 
+// .Submitbtn{
+// }
 
 @media (width < 768px) {
-  .left {
-    display: none;
-  }
+	.left {
+		display: none;
+	}
 
-  .session {
-    width: auto;
-  }
+	.session {
+		width: auto;
+	}
 }
