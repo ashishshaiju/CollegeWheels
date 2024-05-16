@@ -43,7 +43,7 @@ const RegisterPage = () => {
 			alert("Somethings Wrong, Try again");
 		}
 	};
-	
+
 	// Formik stuffs: Form validation
 	const initialValues = {
 		name: "",
@@ -83,6 +83,10 @@ const RegisterPage = () => {
 		onSubmit,
 		validationSchema,
 	});
+
+	const gotoLogin = () => {
+		navigateLogin();
+	}
 
 	return (
 		<div className="session">
@@ -177,7 +181,12 @@ const RegisterPage = () => {
 					/>
 					<label htmlFor="password">Password: </label>
 				</div>
-				<button type="submit">Register</button>
+				<div className="flex justify-between w-full items-center">
+					<button type="submit">Register</button>
+					<a className="text-sm hover:underline" onClick={gotoLogin}>
+						Login
+					</a>
+				</div>
 			</form>
 		</div>
 	);

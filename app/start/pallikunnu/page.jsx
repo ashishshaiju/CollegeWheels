@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import PocketBase from "pocketbase";
 import { navigateLogin } from "@/app/actions";
 import tw from "tailwind-styled-components";
+import { generateOTP, sendUserName } from "@/app/verify";
 
 import { Button } from "@/components/ui/button";
 
@@ -40,14 +41,11 @@ const pallikkunnuPage = () => {
 		checkUserValid();
 	}, []);
 
-	const randomSixDigitNumber = () => {
-		return Math.floor(Math.random() * 900000) + 100000;
-	};
-
 	const [randomNumber, setRandomNumber] = useState(0);
-
-	const generateRandomNumber = () => {
-		setRandomNumber(randomSixDigitNumber());
+	const handleGenerateOTP = () => {
+		const random = generateOTP();
+		setRandomNumber(random);
+		sendUserName(userName);
 	};
 
 	const [showCodeBtn, setShowCodeBtn] = useState(false);
@@ -76,7 +74,7 @@ const pallikkunnuPage = () => {
 				<Dialog>
 					<VerifyButtonCont>
 						<DialogTrigger>
-							<Button onClick={generateRandomNumber}>Show Code</Button>
+							<Button onClick={handleGenerateOTP}>Show Code</Button>
 						</DialogTrigger>
 						<Text>
 							Click the button above to generate the Verification code.

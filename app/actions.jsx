@@ -25,3 +25,7 @@ export async function navigateStartKuttikkanam() {
 export async function navigateStartPallikunnu() {
   redirect(`/start/pallikunnu`);
 }
+
+export async function navigateRegister() {
+  redirect(`/register`);
+}

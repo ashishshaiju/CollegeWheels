@@ -9,13 +9,9 @@ import "../style.scss";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PocketBase from "pocketbase";
-import { navigateHome } from "@/app/actions";
+import { navigateHome, navigateRegister } from "@/app/actions";
 
 const LoginPage = () => {
-	// const data = {
-	// 	email: "soman@gmail.com",
-	// 	password: "12345",
-	// };
 
 	const pb = new PocketBase("http://127.0.0.1:8090");
 
@@ -71,6 +67,10 @@ const LoginPage = () => {
 		validationSchema,
 	});
 
+	const gotoRegister = () => {
+		navigateRegister();
+	};
+
 	return (
 		<div className="session">
 			<div className="left"></div>
@@ -107,7 +107,10 @@ const LoginPage = () => {
 					/>
 					<label htmlFor="password">Password: </label>
 				</div>
+				<div className="flex justify-between w-full items-center">
 				<button className="SubmitBtn" type="submit">Log in</button>
+				<a className="text-sm hover:underline" onClick={gotoRegister}>Register</a>
+				</div>
 			</form>
 		</div>
 	);

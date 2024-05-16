@@ -6,7 +6,11 @@ import auto from "../assets/auto.png";
 import "./globals.scss";
 import Image from "next/image";
 import PocketBase from "pocketbase";
-import { navigateLogin, navigateStartPallikunnu, navigateStartKuttikkanam } from "./actions";
+import {
+	navigateLogin,
+	navigateStartPallikunnu,
+	navigateStartKuttikkanam,
+} from "./actions";
 
 export default function Home() {
 	const pb = new PocketBase("http://127.0.0.1:8090");
@@ -50,7 +54,7 @@ export default function Home() {
 			<Map>
 				<iframe
 					src="https://embed.waze.com/iframe?zoom=16&lat=9.582618&lon=76.971127&ct=livemap"
-					width="600"
+					width="15000"
 					height="450"
 					allowfullscreen
 				></iframe>
@@ -86,7 +90,9 @@ export default function Home() {
 	);
 }
 
-const Map = tw.div`flex-1 text-center flex items-center justify-center`;
+const Map = tw.div`
+map flex-1 text-center flex items-center justify-center 
+`;
 
 const ActionItems = tw.div`
 flex-1 bg-white

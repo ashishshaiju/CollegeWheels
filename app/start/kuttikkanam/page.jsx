@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import PocketBase from "pocketbase";
 import { navigateLogin, navigateStart } from "@/app/actions";
 import tw from "tailwind-styled-components";
-import { useFormik } from "formik";
+import { generateOTP, sendUserName } from "@/app/verify";
 
 import { Button } from "@/components/ui/button";
 
@@ -16,23 +16,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-
-// import {
-// 	InputOTP,
-// 	InputOTPGroup,
-// 	InputOTPSlot,
-// } from "@/components/ui/input-otp";
-
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useForm } from "react-hook-form";
-// import { z } from "zod";
-
-// import {
-// 	Form,
-// 	FormControl,
-// 	FormField,
-// 	FormItem,
-// } from "@/components/ui/form";
 
 const kuttikkanamPage = () => {
 	const pb = new PocketBase("http://127.0.0.1:8090");
@@ -56,18 +39,6 @@ const kuttikkanamPage = () => {
 	useEffect(() => {
 		checkUserValid();
 	}, []);
-
-	const randomSixDigitNumber = () => {
-		return Math.floor(Math.random() * 900000) + 100000;
-	};
-
-	const [randomNumber, setRandomNumber] = useState(0);
-
-	const generateRandomNumber = () => {
-		setRandomNumber(randomSixDigitNumber());
-	};
-
-
 
 	// const initialValues = {
 	// 	pin: "",
@@ -118,34 +89,44 @@ const kuttikkanamPage = () => {
 	// 		// ),
 	// 	});
 	// }
+	const [randomNumber, setRandomNumber] = useState(0);
+	const handleGenerateOTP = () => {
+		const random = generateOTP();
+		setRandomNumber(random);
+	};
 
 	const [showCodeBtn, setShowCodeBtn] = useState(false);
 
 	return (
 		<Container>
 			<ConfirmContainer>
-				<Heading>{showCodeBtn?"Click To Generate Verification Code":"Confirm Your Ride To Kuttikkanam?"}</Heading>
+				<Heading>
+					{showCodeBtn
+						? "Click To Generate Verification Code"
+						: "Confirm Your Ride To Kuttikkanam?"}
+				</Heading>
 				{!showCodeBtn && (
-				<ButtonContainer>
-					<Button
-						className="w-20"
-						variant="secondary"
-						onClick={() => {
-							setShowCodeBtn(true);
-						}}
-					>
-						Sure
-					</Button>
-					<Button className="w-20" variant="secondary">
-						Cancel
-					</Button>
-				</ButtonContainer>)}
+					<ButtonContainer>
+						<Button
+							className="w-20"
+							variant="secondary"
+							onClick={() => {
+								setShowCodeBtn(true);
+							}}
+						>
+							Sure
+						</Button>
+						<Button className="w-20" variant="secondary">
+							Cancel
+						</Button>
+					</ButtonContainer>
+				)}
 			</ConfirmContainer>
 			{showCodeBtn && (
 				<Dialog>
 					<VerifyButtonCont>
 						<DialogTrigger>
-							<Button onClick={generateRandomNumber}>Show Code</Button>
+							<Button onClick={handleGenerateOTP}>Show Code</Button>
 						</DialogTrigger>
 						<Text>
 							Click the button above to generate the Verification code.
@@ -161,16 +142,13 @@ const kuttikkanamPage = () => {
 								Start the ride only after verifying the correct code.
 							</DialogDescription>
 						</DialogHeader>
-						<PinBox>
-								{randomNumber}
-						</PinBox>
+						<PinBox>{randomNumber}</PinBox>
 					</DialogContent>
 				</Dialog>
 			)}
 		</Container>
 	);
 };
-
 export default kuttikkanamPage;
 
 const PinBox = tw.div`
@@ -200,6 +178,7 @@ flex flex-col items-center justify-center gap-4
 const Text = tw.p`
 text-black text-xs mx-6 text-center
 `;
+
 // import React from 'react';
 // import * as Dialog from '@radix-ui/react-dialog';
 // import { Cross2Icon } from '@radix-ui/react-icons';

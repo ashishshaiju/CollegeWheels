@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "tailwind-styled-components";
 import "../globals.scss";
 import { useState } from "react";
 import { navigateLoginDriver } from "@/app/actions";
 import PocketBase from "pocketbase";
+import { verifyOTP, sendUserName } from "../verify";
+import SuccessImage from "../success";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +29,7 @@ export default function Driver() {
 	const pb = new PocketBase("http://127.0.0.1:8090");
 	const [isuserValid, setUserValid] = useState(true);
 	const [userName, setUserName] = useState(null);
+	const [clientName, setClientName] = useState("");
 
 	const checkUserValid = async () => {
 		try {
@@ -35,12 +38,17 @@ export default function Driver() {
 			setUserValid(true);
 		} catch (error) {
 			console.error("Error checking user validity:", error);
-			navigateLogin();
+			navigateLoginDriver();
 		}
 		if (isuserValid == false) {
-			navigateLogin();
+			navigateLoginDriver();
 		}
 	};
+
+	useEffect(() => {
+		checkUserValid();
+		setClientName("Neha");
+	}, []);
 
 	const logout = () => {
 		try {
@@ -51,9 +59,19 @@ export default function Driver() {
 		}
 	};
 
-	const [value, setValue] = useState('')
+	const [valuet, setValuet] = useState("");
+	const [isPinValid, setPinValid] = useState(null);
 
-	checkUserValid();
+	const onSubmit = (e) => {
+		e.preventDefault();
+		const isValid = verifyOTP(valuet);
+		setPinValid(isValid);
+		if (isValid) {
+			console.log("Pin Verified");
+		} else {
+			console.log("Pin incorrect!");
+		}
+	};
 
 	return (
 		<Main>
@@ -80,44 +98,50 @@ export default function Driver() {
 					<RideButtons>
 						<RideButton>
 							<Dialog>
-								<RideText>Neha</RideText>
+								<RideText>{clientName}</RideText>
 								<DialogTrigger>
-									<Button className="w-32">Accept</Button>
+									<Button className="w-32">
+										{isPinValid ? "Accepted" : "Accept"}
+									</Button>
 								</DialogTrigger>
 								<DialogContent className="flex flex-col items-start">
-									<DialogHeader>
-										<DialogTitle>Verify Code from User</DialogTitle>
-										<DialogDescription>
-											The code will be displayed in the user's phone. <br />
-											Start the ride only after entering the correct code.
-										</DialogDescription>
-									</DialogHeader>
-									<div className="space-y-2">
-										<InputOTP
-											maxLength={6}
-											value={value}
-											onChange={() => setValue(value)}
-										>
-											<InputOTPGroup>
-												<InputOTPSlot index={0} />
-												<InputOTPSlot index={1} />
-												<InputOTPSlot index={2} />
-												<InputOTPSlot index={3} />
-												<InputOTPSlot index={4} />
-												<InputOTPSlot index={5} />
-											</InputOTPGroup>
-										</InputOTP>
-										<div className="text-center text-sm">
-											{value === "" ? (
-												<>Enter your one-time password.</>
-											) : (
-												<>You entered: {value}</>
-											)}
-										</div>
-									</div>
-									<Button type="submit">
-                    Submit
-                  </Button>
+									{isPinValid ? (
+										<SuccessImage />
+									) : (
+										<>
+											<DialogHeader>
+												<DialogTitle>Verify Code from User</DialogTitle>
+												<DialogDescription>
+													The code will be displayed in the user's phone. <br />
+													Start the ride only after entering the correct code.
+												</DialogDescription>
+											</DialogHeader>
+											<form action={onSubmit}>
+												<div className="space-y-2">
+													<InputOTP
+														maxLength={6}
+														value={valuet}
+														onChange={(valuet) => setValuet(valuet)}
+													>
+														<InputOTPGroup>
+															<InputOTPSlot index={0} />
+															<InputOTPSlot index={1} />
+															<InputOTPSlot index={2} />
+															<InputOTPSlot index={3} />
+															<InputOTPSlot index={4} />
+															<InputOTPSlot index={5} />
+														</InputOTPGroup>
+													</InputOTP>
+													<div className="text-center text-sm">
+														{valuet === "" && <>Enter the one-time password.</>}
+													</div>
+												</div>
+												<Button type="submit" onClick={onSubmit}>
+													Submit
+												</Button>
+											</form>
+										</>
+									)}
 								</DialogContent>
 							</Dialog>
 						</RideButton>
