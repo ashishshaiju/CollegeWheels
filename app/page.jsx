@@ -3,7 +3,7 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 import auto from "../assets/auto.png";
-import "./globals.scss";
+import "./globals.css";
 import Image from "next/image";
 import PocketBase from "pocketbase";
 import {

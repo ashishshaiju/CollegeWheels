@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import tw from "tailwind-styled-components";
-import "../globals.scss";
+import "../globals.css";
 import { useState } from "react";
 import { navigateLoginDriver } from "@/app/actions";
 import PocketBase from "pocketbase";
