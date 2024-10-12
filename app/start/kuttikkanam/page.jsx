@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import PocketBase from "pocketbase";
-import { navigateLogin, navigateStart } from "@/app/actions";
+import { navigateLogin, navigateStart, navigateHome } from "@/app/actions";
 import tw from "tailwind-styled-components";
 import { generateOTP, sendUserName } from "@/app/verify";
+import { addCurrent } from "../currentUser";
 
 import { Button } from "@/components/ui/button";
-
 import {
 	Dialog,
 	DialogContent,
@@ -96,6 +96,10 @@ const kuttikkanamPage = () => {
 	};
 
 	const [showCodeBtn, setShowCodeBtn] = useState(false);
+	const sureAction = async () => {
+		addCurrent(pb.authStore);
+		setShowCodeBtn(true);
+	};
 
 	return (
 		<Container>
@@ -110,13 +114,15 @@ const kuttikkanamPage = () => {
 						<Button
 							className="w-20"
 							variant="secondary"
-							onClick={() => {
-								setShowCodeBtn(true);
-							}}
+							onClick={() => sureAction()}
 						>
 							Sure
 						</Button>
-						<Button className="w-20" variant="secondary">
+						<Button
+							className="w-20"
+							variant="secondary"
+							onClick={() => navigateHome()}
+						>
 							Cancel
 						</Button>
 					</ButtonContainer>

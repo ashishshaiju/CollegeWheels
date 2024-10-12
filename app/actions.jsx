@@ -1,5 +1,4 @@
-'use server'
-
+"use server"
 import { redirect } from 'next/navigation'
 
 export async function navigateHome() {
@@ -29,3 +28,4 @@ export async function navigateStartPallikunnu() {
 export async function navigateRegister() {
   redirect(`/register`);
 }
+

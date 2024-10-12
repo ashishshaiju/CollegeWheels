@@ -12,17 +12,12 @@ import PocketBase from "pocketbase";
 import { navigateDriver } from "@/app/actions";
 
 const driverLoginPage = () => {
-	// const data = {
-	// 	email: "soman@gmail.com",
-	// 	password: "12345",
-	// };
-
 	const [isLoggedIn, setLoggedIn] = useState(false);
 
 	const authUser = async (data) => {
 		const pb = new PocketBase("http://127.0.0.1:8090");
 		try {
-			const authData = await pb
+			const authDriver = await pb
 				.collection("driver")
 				.authWithPassword(data.email, data.password)
 				.then(() => {

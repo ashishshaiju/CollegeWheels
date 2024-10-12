@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import PocketBase from "pocketbase";
-import { navigateLogin } from "@/app/actions";
+import { navigateHome, navigateLogin } from "@/app/actions";
 import tw from "tailwind-styled-components";
 import { generateOTP, sendUserName } from "@/app/verify";
 
@@ -65,7 +65,7 @@ const pallikkunnuPage = () => {
 					>
 						Sure
 					</Button>
-					<Button className="w-20" variant="secondary">
+					<Button className="w-20" variant="secondary" onClick={()=>navigateHome()}>
 						Cancel
 					</Button>
 				</ButtonContainer>)}

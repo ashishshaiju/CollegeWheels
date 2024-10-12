@@ -24,6 +24,7 @@ import {
 	InputOTPGroup,
 	InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { CloudHail } from "lucide-react";
 
 export default function Driver() {
 	const pb = new PocketBase("http://127.0.0.1:8090");
@@ -45,9 +46,19 @@ export default function Driver() {
 		}
 	};
 
+	const requests = async () => {
+		const records = await pb.collection('requests').getFullList({
+			sort: '-created',
+	});
+	console.log(records);
+	records.map((item)=>setClientName(item.user.name))
+	}
+
+
 	useEffect(() => {
 		checkUserValid();
-		setClientName("Neha");
+		// setClientName("Neha");
+		requests();
 	}, []);
 
 	const logout = () => {
@@ -98,6 +109,7 @@ export default function Driver() {
 					<RideButtons>
 						<RideButton>
 							<Dialog>
+								
 								<RideText>{clientName}</RideText>
 								<DialogTrigger>
 									<Button className="w-32">
